@@ -1,0 +1,86 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hello",
+        "Hey",
+        "Greetings",
+        "Hi there",
+        "Hello there",
+        "Good day",
+        "What's up",
+        "Hey there"
+      ],
+      "responses": [
+        "Hello! How can I assist you today?",
+        "Hi there! How can I help you?",
+        "Hey! What can I do for you today?",
+        "Good day! How may I assist you?",
+        "Hello! What can I help you with today?",
+        "Hi! Feel free to ask me anything."
+      ]
+    },
+    {
+      "tag": "weatherInquiry",
+      "patterns": [
+        "Ora, what's the weather?",
+        "Ora, what's the weather like?",
+        "Ora, can you tell me the weather?",
+        "Ora, I want to know the weather",
+        "Ora, what is the current weather?",
+        "Ora, tell me the weather",
+        "Ora, weather update, please",
+        "Ora, give me a weather update",
+        "Ora, Weather, now",
+        "What's the weather?",
+        "Can you tell me the weather?",
+        "I want to know the weather",
+        "What is the current weather?",
+        "Tell me the weather",
+        "Weather update, please",
+        "Give me a weather update",
+        "Weather, now",
+        "What's the weather forecast?",
+        "Can you give me the weather forecast?",
+        "Ora, what's the weather forecast?"
+      ],
+      "responses": [
+        "Sure, let me check the weather for you.",
+        "Checking the weather for you now.",
+        "Let me find out the current weather conditions for you.",
+        "I'm on it, fetching the weather details for you.",
+        "Sure thing, getting the latest weather update for you."
+      ],
+      "api_call": "weather_api_endpoint"
+    },
+    {
+      "tag": "smallTalk",
+      "patterns": [
+        "How are you?",
+        "What's up?",
+        "How's it going?",
+        "Are you a robot?",
+        "What is your name?",
+        "Who created you?",
+        "What can you do?",
+        "Do you like music?",
+        "Tell me a joke",
+        "What is your favorite color?"
+      ],
+      "responses": [
+        "I'm just a computer program, so I don't have feelings, but I'm here to assist you!",
+        "I'm here and ready to assist you with any information you need!",
+        "I'm doing well, thank you! How can I assist you today?",
+        "I am a virtual assistant created to assist you with a variety of tasks. How may I assist you today?",
+        "I am Ora, your virtual assistant. How can I assist you today?",
+        "I was created by a team of talented developers. How can I assist you today?",
+        "I am programmed to assist with a range of tasks, including providing weather updates, answering questions, and more. How can I assist you today?",
+        "I don't have personal preferences, but I'd love to help you find some great music!",
+        "Sure, here's a joke for you: Why don't scientists trust atoms? Because they make up everything!",
+        "I don't have a favorite color, but I'm here to assist you in any way I can!"
+      ]      
+    }
+  ]
+}

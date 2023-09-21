@@ -1,0 +1,19 @@
+.bg{
+    background: linear-gradient(-65deg, #61A9F5 0%, #796DB2 30%, #1A1561 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    
+}
+.transparent-button {
+    background-color: rgba(217, 217, 217, 0.2); /* Red background at 50% opacity */
+  }
+.button-text{
+    opacity: 1;
+    color: white;
+    font-weight: bold;
+}
+.bottomPage{
+    position: absolute;
+    bottom: 0;
+}

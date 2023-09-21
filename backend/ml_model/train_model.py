@@ -11,6 +11,7 @@ def train_model(X, y):
     Returns:
     - clf: The trained classifier
     """
+    
     clf = RandomForestClassifier()
     clf.fit(X, y)
     

@@ -9,6 +9,8 @@ def preprocess_data(intents):
     responses = []
     labels = []
 
+    #prepare data from intents
+
     for intent in intents['intents']:
         for pattern in intent['patterns']:
             patterns.append(pattern)
@@ -21,4 +23,6 @@ def preprocess_data(intents):
     le = LabelEncoder()
     y = le.fit_transform(labels)
     
+    #return preprocessed data
+
     return X, y, vectorizer, le, responses

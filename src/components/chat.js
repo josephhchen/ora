@@ -18,7 +18,6 @@ function Chat() {
   
     return (
       <>
-        <Navbar />
         <input
           type="text"
           value={message}

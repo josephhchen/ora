@@ -5,46 +5,24 @@ from ora.backend.ml_model.train_model import train_model
 import json
 import requests
 import random
+from db_config import db  # Import db from db_config.py
 
+
+#create a Blueprint for API routes
 api = Blueprint('api', __name__)
 CORS(api)  # Apply CORS to the blueprint instead of the Flask app
 
+#load intents.json file to define the bot's responses and actions
 with open('intents.json') as f:
     intents = json.load(f)
 
+#preprocess data and train the machine learning model
 X, y, vectorizer, le, responses = preprocess_data(intents)
-clf = train_model(X, y) # Here is where the classifier is trained with the preprocessed data
-@api.route('/add_pattern', methods=['POST'])
-def add_pattern():
-    intent_tag = request.json['intent_tag']
-    new_pattern = request.json['new_pattern']
-
-    for intent in intents['intents']:
-        if intent['tag'] == intent_tag:
-            intent['patterns'].append(new_pattern)
-            with open('intents.json', 'w') as f:
-                json.dump(intents, f, indent=4)
-            return jsonify({'message': 'Pattern added successfully'}), 200
-
-    return jsonify({'message': 'Intent not found'}), 400
-
-def add_intent():
-    new_intent = request.json['new_intent']
-
-    intents['intents'].append(new_intent)
-    with open('intents.json', 'w') as f:
-        json.dump(intents, f, indent=4)
-    
-    global X, y, vectorizer, le, responses, clf
-    X, y, vectorizer, le, responses = preprocess_data(intents)
-    clf = train_model(X, y)
-    
-    return jsonify({'message': 'Intent added successfully'}), 200
-
+clf = train_model(X, y)
 
 def get_weather(location):
     url = "https://weatherapi-com.p.rapidapi.com/current.json"
-    querystring = {"q": location} 
+    querystring = {"q": location}  # Use the location parameter here
     headers = {
         "X-RapidAPI-Key": "774c5b7a55mshfa900e364111987p11f98djsn768432abd640",
         "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"
@@ -54,24 +32,45 @@ def get_weather(location):
     print(response_data)
     return response_data
 
+@api.route('/load_intents', methods=['GET'])
+def load_intents():
+    global intents, X, y, vectorizer, le, responses, clf
+    intent_collection = db['intents']
+    intents = list(intent_collection.find({}))
+    X, y, vectorizer, le, responses = preprocess_data(intents)
+    clf = train_model(X, y)
+    return jsonify({'message': 'Intents reloaded successfully'}), 200
 
+#route to handle chat interactions
 @api.route('/ask', methods=['POST'])
 def ask():
     message = request.json['message'].lower()
-
+    chat_collection = db['chat_history']  # Initialize the chat_collection at the top
+    # Step 1: Transform the input message
     X_pred = vectorizer.transform([message])
 
+    # Step 2: Use the trained classifier to predict the intent
     y_pred = clf.predict(X_pred)
 
+    # Step 3: Get the predicted tag name
     predicted_tag = le.inverse_transform(y_pred)[0]
 
+    # Step 4: Find the correct intent based on the predicted tag
     for intent in intents['intents']:
+
+        
         if intent['tag'] == predicted_tag:
             response_message = random.choice(intent['responses'])
-
+            chat_collection.insert_one({
+                'user_query': message,
+                'bot_response': response_message
+            })
+        
+            # Step 5: If necessary, call the weather API
             if intent.get('api_call') == "weather_api_endpoint":
+                # Extract location from the message (this is a basic approach, you might want a more robust solution)
                 location = message.replace('ora, ', '').replace('?', '').split('weather in ')[-1]
-                weather_details = get_weather(location)  
+                weather_details = get_weather(location)  # Pass the location to the get_weather function
                 response_message += f" The current weather in {weather_details['location']['name']}, {weather_details['location']['region']} is as follows:\n"
                 response_message += f"- Condition: {weather_details['current']['condition']['text']}\n"
                 response_message += f"- Temperature: {weather_details['current']['temp_c']}°C ({weather_details['current']['temp_f']}°F)\n"
@@ -85,6 +84,10 @@ def ask():
                 'message': response_message,
             }
             return jsonify(response)
+    chat_collection.insert_one({
+        'user_query': message,
+        'bot_response': 'Sorry, I did not understand that.'
+    })
     
     return jsonify({'message': 'Sorry, I did not understand that.'})
 if __name__ == '__main__':

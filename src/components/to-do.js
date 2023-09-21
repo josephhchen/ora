@@ -3,7 +3,7 @@ import Navbar from './nav';
 
 function ToDo() {
     return (
-        <Navbar />
+        <div>Hi</div>
     )
 }
 

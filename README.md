@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# ORA - Organized Responsive Assistant
+## About
+ORA (Organized Responsive Assistant) is an AI-based personal assistant designed to simplify your life by offering a range of features in a single platform. Developed by Joseph Chen, a junior computer science student at the University at Buffalo, ORA is a machine learning model that aims to understand and cater to your daily needs. It provides functionalities like casual conversations, setting to-dos, reminders, and even Google Calendar integration.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Whether you are on desktop, mobile, or prefer to use a web application, ORA has got you covered. It is cross-platform, meaning it runs smoothly on all these platforms, offering the same quality of service.
 
-## Available Scripts
+### Features
 
-In the project directory, you can run:
+Chat: Engage in casual conversations with ORA.
+To-dos: Create and manage your to-do list.
+Reminders: Never miss an important task or event again with reminders.
+Google Calendar Integration: Directly add events to your Google Calendar through ORA.
+Voice Activation: Simply say "Ora, [insert action]" to interact with the assistant.
 
-### `npm start`
+### Tech Stack
+React
+Python
+Flask
+MongoDB
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
+### Web App
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Navigate to the official ORA web application link.
+Register or login to start using ORA's features.
 
-### `npm test`
+### Desktop App
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Download the installer for your OS from the official website.
+Install and run ORA.
 
-### `npm run build`
+### Mobile App
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Download the ORA app from the App Store or Google Play.
+Install and launch the app to start your ORA experience.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### How to Use
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+For Chatting: Simply type in or say what you'd like to talk about.
+Setting To-dos: Say or type, "Ora, set a to-do to [your task here]".
+Creating Reminders: Command, "Ora, remind me to [your reminder here]".
+Adding to Google Calendar: Simply command, "Ora, add an event to my Google Calendar for [event details]".
 
-### `npm run eject`
+### Contributing
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Feel free to report issues or contribute to ORA's development. Please read CONTRIBUTING.md for details.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### License
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project is licensed under the MIT License - see the LICENSE.md file for details.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Author
 
-## Learn More
+Joseph Chen - Junior CS Student at the University at Buffalo
+For any queries, you can reach out to me at joehaiyuechen@gmail.com
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

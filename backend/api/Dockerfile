@@ -11,7 +11,7 @@ COPY . /app
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Make port 5000 available to the world outside this container
-EXPOSE 5000
+EXPOSE 4040
 
 # Define environment variable for PYTHONPATH
 ENV PYTHONPATH=/app

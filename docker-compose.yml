@@ -1,55 +1,55 @@
 version: '3.7'
 
 services:
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes: 
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - frontend
 
-    client:
-        build:
-            context: ./frontend
-            dockerfile: Dockerfile
-        tty: true
-        ports:
-            - "3000:3000"
-        volumes: 
-            - ./frontend:/app
-            - /app/node_modules
-        networks:
-            - frontend
+  mongodb:
+    image: mongo
+    container_name: mongo
+    restart: unless-stopped
+    command: mongod --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "poopdad"
+      MONGO_INITDB_ROOT_PASSWORD: "password123"
+      MONGO_INITDB_DATABASE: webapp
+      MONGODB_DATA_DIR: /data/db
+    volumes:
+      - mongodbdata:/data/db
+    networks:
+      - backend
 
-    mongodb:
-        image: mongo
-        container_name: mongo
-        restart: unless-stopped
-        command: mongod --auth
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: "poopdad"
-            MONGO_INITDB_ROOT_PASSWORD: "password123"
-            MONGO_INITDB_DATABASE: webapp
-            MONGODB_DATA_DIR: /data/db
-        volumes:
-            - mongodbdata:/data/db
-        networks:
-            - backend
-    api:
-        build: 
-            context: ./backend/api
-            dockerfile: Dockerfile
-        command: gunicorn --bind 0.0.0.0:4040 app:app  # Use port 5000
-        ports:
-            - "4040:4040"  # Map container port 5000 to host port 5000
-        volumes:
-          - ./backend/api:/app
-        environment:
-            MONGODB_HOST: mongodb
-            MONGODB_USERNAME: "apiuser"
-            MONGODB_PASSWORD: "apipassword"
+  api:
+    build: 
+      context: ./backend/api
+      dockerfile: Dockerfile
+    ports:
+      - "4040:4040"  # Map container port 4040 to host port 4040
+    volumes:
+      - ./backend/api:/app
+    environment:
+      MONGODB_HOST: mongodb
+      MONGODB_USERNAME: "apiuser"
+      MONGODB_PASSWORD: "apipassword"
 
 networks:
-    frontend:
-        driver: bridge
-    backend:
-        driver: bridge
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
 volumes:
-    mongodbdata:
-        driver: local
-    appdata:
-        driver: local
+  mongodbdata:
+    driver: local
+  appdata:
+    driver: local

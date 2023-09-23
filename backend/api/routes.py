@@ -5,24 +5,21 @@ from ora.backend.ml_model.train_model import train_model
 import json
 import requests
 import random
-from db_config import db  # Import db from db_config.py
+from db_config import db  
 
 
-#create a Blueprint for API routes
 api = Blueprint('api', __name__)
-CORS(api)  # Apply CORS to the blueprint instead of the Flask app
+CORS(api)  
 
-#load intents.json file to define the bot's responses and actions
 with open('intents.json') as f:
     intents = json.load(f)
 
-#preprocess data and train the machine learning model
 X, y, vectorizer, le, responses = preprocess_data(intents)
 clf = train_model(X, y)
 
 def get_weather(location):
     url = "https://weatherapi-com.p.rapidapi.com/current.json"
-    querystring = {"q": location}  # Use the location parameter here
+    querystring = {"q": location}  
     headers = {
         "X-RapidAPI-Key": "774c5b7a55mshfa900e364111987p11f98djsn768432abd640",
         "X-RapidAPI-Host": "weatherapi-com.p.rapidapi.com"

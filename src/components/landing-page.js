@@ -78,7 +78,7 @@ return (
       </div>
 
       <div className="h-screen" id="About">
-        About:
+        
 
       </div>
   </>

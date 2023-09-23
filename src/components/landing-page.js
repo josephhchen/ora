@@ -39,7 +39,7 @@ function Landing() {
   }, []);
 
   const goToChat = () => {
-    navigate('/chat');
+    navigate('/login');
   };
 
 return (

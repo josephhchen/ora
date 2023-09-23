@@ -9,8 +9,6 @@ def preprocess_data(intents):
     responses = []
     labels = []
 
-    #prepare data from intents
-
     for intent in intents['intents']:
         for pattern in intent['patterns']:
             patterns.append(pattern)

@@ -6,6 +6,7 @@ import json
 import requests
 import random
 from db_config import db  
+from user_schema import user_collection
 
 
 api = Blueprint('api', __name__)
@@ -17,6 +18,21 @@ with open('intents.json') as f:
 X, y, vectorizer, le, responses = preprocess_data(intents)
 clf = train_model(X, y)
 
+@api.route('/register', methods=['POST'])
+def register():
+    user_data = request.json
+    user_collection.insert_one(user_data)
+    return jsonify({'message': 'User registered successfully!'}), 200
+
+@api.route('/login', methods=['POST'])
+def login():
+    user_data = request.json
+    user = user_collection.find_one({'username': user_data['username']})
+    if user and user['password'] == user_data['password']:
+        return jsonify({'message': 'Logged in successfully!', 'userId': str(user['_id'])}), 200
+    else:
+        return jsonify({'message': 'Invalid credentials!'}), 401
+    
 def get_weather(location):
     url = "https://weatherapi-com.p.rapidapi.com/current.json"
     querystring = {"q": location}  
@@ -41,6 +57,8 @@ def load_intents():
 #route to handle chat interactions
 @api.route('/ask', methods=['POST'])
 def ask():
+    user_id = request.json.get('user_id', None)  # Retrieve the user ID from the request
+
     message = request.json['message'].lower()
     chat_collection = db['chat_history']  # Initialize the chat_collection at the top
     # Step 1: Transform the input message
@@ -59,10 +77,11 @@ def ask():
         if intent['tag'] == predicted_tag:
             response_message = random.choice(intent['responses'])
             chat_collection.insert_one({
-                'user_query': message,
-                'bot_response': response_message
-            })
-        
+                    'user_query': message,
+                    'bot_response': response_message,
+                    'user_id': user_id  # Store the user ID
+                })
+
             # Step 5: If necessary, call the weather API
             if intent.get('api_call') == "weather_api_endpoint":
                 # Extract location from the message (this is a basic approach, you might want a more robust solution)
@@ -82,9 +101,10 @@ def ask():
             }
             return jsonify(response)
     chat_collection.insert_one({
-        'user_query': message,
-        'bot_response': 'Sorry, I did not understand that.'
-    })
+                    'user_query': message,
+                    'bot_response': 'Sorry, I did not understand that.',
+                    'user_id': user_id  # Store the user ID
+                })
     
     return jsonify({'message': 'Sorry, I did not understand that.'})
 if __name__ == '__main__':

@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/chat.css';
 import Navbar from './nav';
+import { useUser } from './user-context';
 
 function Chat() {
   const [message, setMessage] = useState('');
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
+  const { userId } = useUser();
 
   const sendMessage = async () => {
     if (message.trim() === '') return;
@@ -16,7 +18,7 @@ function Chat() {
     setIsTyping(true);
 
     try {
-      const res = await axios.post('http://localhost:5000/api/ask', { message });
+      const res = await axios.post('http://localhost:5000/api/ask', { message, user_id: userId });
       setTimeout(() => {
         setChatHistory([...chatHistory, { type: 'user', message }, { type: 'ora', message: res.data.message }]);
         setIsTyping(false);
@@ -25,6 +27,22 @@ function Chat() {
       console.error(err);
     }
   };
+
+  const sendFeedback = async (isCorrect) => {
+    try {
+      const lastUserMessage = chatHistory[chatHistory.length - 2].message;
+      const lastBotMessage = chatHistory[chatHistory.length - 1].message;
+      await axios.post('http://localhost:5000/api/feedback', {
+        user_query: lastUserMessage,
+        bot_response: lastBotMessage,
+        is_correct: isCorrect
+      });
+      console.log("Feedback sent");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
